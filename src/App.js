@@ -1,23 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import { Switch, Route } from "react-router-dom";
+import Homepage from "./pages/Homepage";
+import PostPage from "./pages/PostPage";
+import LoginPage from "./pages/LoginPage";
+import Toolbar from "./components/Toolbar";
+import { useDispatch } from "react-redux";
+import { bootstrapLoginState } from "./store/auth/actions";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(bootstrapLoginState);
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Toolbar />
+
+        <Switch>
+          {/* MORE PAGES TO BE ADDED HERE LATER */}
+          <Route path="/posts/:id" component={PostPage} />
+          <Route exact path="/" component={Homepage} />
+          <Route path="/login" component={LoginPage} />
+        </Switch>
       </header>
     </div>
   );
